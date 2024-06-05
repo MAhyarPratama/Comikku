@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test API Request</title>
+</head>
+<body>
+    <h1>Test API Request</h1>
+
+    <button onclick="getUsers()">Get Users</button>
+    <button onclick="createUser()">Create User</button>
+    <button onclick="loginUser()">Login User</button>
+
+    <script>
+        function getUsers() {
+            fetch('http://localhost/simple-rest-api/app.php?url=users')
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch(error => console.error('Error:', error));
+        }
+
+        function createUser() {
+            fetch('http://localhost/simple-rest-api/app.php?url=users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: 'newuser',
+                    email: 'newuser@example.com',
+                    password: 'newpassword',
+                    usertype: 'user'
+                }),
+            })
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch(error => console.error('Error:', error));
+        }
+
+        function loginUser() {
+            fetch('http://localhost/simple-rest-api/app.php?url=login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: 'admin_moon@gmail.com',
+                    password: 'welcomeadmin1'
+                }),
+            })
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
