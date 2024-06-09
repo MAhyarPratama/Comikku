@@ -1,9 +1,9 @@
 <?php
 class Database {
-    private $host = "localhost";
-    private $db_name = "moonuse";
-    private $username = "root";
-    private $password = "";
+    private $host = 'localhost';
+    private $db_name = 'comikku';
+    private $username = 'root';
+    private $password = '';
     public $conn;
 
     public function getConnection() {
@@ -11,7 +11,7 @@ class Database {
         try {
             $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
             $this->conn->exec("set names utf8");
-        } catch (PDOException $exception) {
+        } catch(PDOException $exception) {
             echo "Connection error: " . $exception->getMessage();
         }
         return $this->conn;
