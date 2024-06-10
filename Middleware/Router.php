@@ -1,23 +1,42 @@
 <?php
-require_once __DIR__ . '/../controllers/UsersController.php';
 
-class Router {
-    private $usersController;
+class Router
+{
+    private $routes = array();
 
-    public function __construct() {
-        $this->usersController = new UsersController();
+    public function register($method, $path, $action)
+    {
+        $this->routes[strtoupper($method)][$path] = $action;
     }
 
-    public function route($method, $urlList, $requestData) {
-        if ($method == 'GET' && $urlList[0] == 'users') {
-            echo json_encode($this->usersController->getUsers());
-        } elseif ($method == 'POST' && $urlList[0] == 'users') {
-            echo json_encode($this->usersController->createUser($requestData));
-        } elseif ($method == 'POST' && $urlList[0] == 'login') {
-            echo json_encode($this->usersController->loginUser($requestData));
+    public function dispatch($method, $uri) {
+        $basepath = dirname($_SERVER['SCRIPT_NAME']); // Remove the basepath from the URI
+    
+        if (substr($uri, 0, strlen($basepath)) == $basepath) {
+            $uri = substr($uri, strlen($basepath));
+        }
+    
+        $method = strtoupper($method);
+    
+        if (isset($this->routes[$method][$uri])) {
+            // Store the result of the action in a variable $data
+            $data = call_user_func($this->routes[$method][$uri]);
+    
+            // Debugging code
+            error_log(print_r($data, true));
+    
+            // Set the response content type to JSON
+            header('Content-Type: application/json');
+            echo ($data);
         } else {
-            echo json_encode(["message" => "Route not found"]);
+            http_response_code(404);
+            header('Content-Type: application/json');
+            echo json_encode([
+                'success' => false,
+                'message' => 'Resource not found.'
+            ]);
         }
     }
+    
 }
 ?>
