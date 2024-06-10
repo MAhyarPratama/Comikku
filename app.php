@@ -1,11 +1,40 @@
 <?php
-require_once 'middleware/Router.php';
+session_start();
+
+include_once 'Config/database.php';
+include_once 'Controller/ComicsController.php';
+include_once 'Middleware/Router.php';
+
+$database = new Database();
+$db = $database->getConnection();
 
 $router = new Router();
 
-$method = $_SERVER['REQUEST_METHOD'];
-$url = isset($_GET['url']) ? explode('/', rtrim($_GET['url'], '/')) : [];
-$requestData = json_decode(file_get_contents('php://input'), true);
+// Register routes
+$router->register('GET', '/comics', function() use ($db) {
+    $controller = new ComicsController($db);
+    return $controller->getComics();
+});
 
-$router->route($method, $url, $requestData);
+$router->register('POST', '/comics', function() use ($db) {
+    $controller = new ComicsController($db);
+    return $controller->createComic();
+});
+
+$router->register('PUT', '/comics/{id}', function($id) use ($db) {
+    $controller = new ComicsController($db);
+    return $controller->updateComic($id);
+});
+
+$router->register('DELETE', '/comics/{id}', function($id) use ($db) {
+    $controller = new ComicsController($db);
+    return $controller->deleteComic($id);
+});
+
+// Parse URI and method
+$uri = $_SERVER['REQUEST_URI'];
+$method = $_SERVER['REQUEST_METHOD'];
+
+// Dispatch the request
+$router->dispatch($method, $uri);
 ?>
