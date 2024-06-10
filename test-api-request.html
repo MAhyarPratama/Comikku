@@ -1,56 +1,93 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Test API Request</title>
+    <title>Test API Requests</title>
 </head>
 <body>
-    <h1>Test API Request</h1>
+    <h1>Test API Requests</h1>
 
-    <button onclick="getUsers()">Get Users</button>
-    <button onclick="createUser()">Create User</button>
-    <button onclick="loginUser()">Login User</button>
+    <h2>Get Comics</h2>
+    <button id="getComicsBtn">Get Comics</button>
+    <pre id="getComicsResult"></pre>
+
+    <h2>Create Comic (Admin Only)</h2>
+    <button id="createComicBtn">Create Comic</button>
+    <pre id="createComicResult"></pre>
+
+    <h2>Update Comic (Admin Only)</h2>
+    <button id="updateComicBtn">Update Comic</button>
+    <pre id="updateComicResult"></pre>
+
+    <h2>Delete Comic (Admin Only)</h2>
+    <button id="deleteComicBtn">Delete Comic</button>
+    <pre id="deleteComicResult"></pre>
 
     <script>
-        function getUsers() {
-            fetch('http://localhost/simple-rest-api/app.php?url=users')
+        document.getElementById('getComicsBtn').addEventListener('click', function() {
+            fetch('/comics')
                 .then(response => response.json())
-                .then(data => console.log(data))
-                .catch(error => console.error('Error:', error));
-        }
+                .then(data => {
+                    document.getElementById('getComicsResult').textContent = JSON.stringify(data, null, 2);
+                });
+        });
 
-        function createUser() {
-            fetch('http://localhost/simple-rest-api/app.php?url=users', {
+        document.getElementById('createComicBtn').addEventListener('click', function() {
+            fetch('/comics', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': 'Bearer <your-admin-token>'
                 },
                 body: JSON.stringify({
-                    username: 'newuser',
-                    email: 'newuser@example.com',
-                    password: 'newpassword',
-                    usertype: 'user'
-                }),
+                    Title: 'New Comic',
+                    Author: 'Author Name',
+                    Genre: 'Genre',
+                    Description: 'Description',
+                    PublishDate: '2023-06-01',
+                    ImageURL: 'http://example.com/image.jpg'
+                })
             })
-                .then(response => response.json())
-                .then(data => console.log(data))
-                .catch(error => console.error('Error:', error));
-        }
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('createComicResult').textContent = JSON.stringify(data, null, 2);
+            });
+        });
 
-        function loginUser() {
-            fetch('http://localhost/simple-rest-api/app.php?url=login', {
-                method: 'POST',
+        document.getElementById('updateComicBtn').addEventListener('click', function() {
+            fetch('/comics/1', {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': 'Bearer <your-admin-token>'
                 },
                 body: JSON.stringify({
-                    email: 'admin_moon@gmail.com',
-                    password: 'welcomeadmin1'
-                }),
+                    Title: 'Updated Comic',
+                    Author: 'Updated Author',
+                    Genre: 'Updated Genre',
+                    Description: 'Updated Description',
+                    PublishDate: '2023-06-01',
+                    ImageURL: 'http://example.com/image.jpg'
+                })
             })
-                .then(response => response.json())
-                .then(data => console.log(data))
-                .catch(error => console.error('Error:', error));
-        }
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('updateComicResult').textContent = JSON.stringify(data, null, 2);
+            });
+        });
+
+        document.getElementById('deleteComicBtn').addEventListener('click', function() {
+            fetch('/comics/1', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer <your-admin-token>'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('deleteComicResult').textContent = JSON.stringify(data, null, 2);
+            });
+        });
     </script>
 </body>
 </html>
