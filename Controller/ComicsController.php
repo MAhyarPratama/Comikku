@@ -1,65 +1,27 @@
 <?php
-include_once 'Models/ComicsModel.php';
-include_once 'Services/ComicsService.php';
+include_once (__DIR__ . '/../Models/ComicsModel.php');
+include_once (__DIR__ . '/../Services/ComicsService.php');
 
 class ComicsController
 {
     private $comicsService;
 
-    public function __construct($conn)
+    public function __construct($db)
     {
-        $comicsModel = new ComicsModel($conn);
+        $comicsModel = new ComicsModel($db);
         $this->comicsService = new ComicsService($comicsModel);
     }
 
     public function getComics()
     {
-        $comics = $this->comicsService->fetchAllComics();
-        echo json_encode($comics);
+        $comics = $this->comicsService->getAllComics();
+        $this->sendOutput(json_encode($comics, JSON_PRETTY_PRINT));
     }
 
-    public function createComic()
+    private function sendOutput($data, $statusCode = 200)
     {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_SESSION['role']) && $_SESSION['role'] === 'admin')
-        {
-            $data = json_decode(file_get_contents('php://input'), true);
-            $result = $this->comicsService->addComic($data);
-            echo json_encode(['success' => $result]);
-        }
-        else
-        {
-            http_response_code(403);
-            echo json_encode(['error' => 'Forbidden']);
-        }
-    }
-
-    public function updateComic($id)
-    {
-        if ($_SERVER['REQUEST_METHOD'] == 'PUT' && isset($_SESSION['role']) && $_SESSION['role'] === 'admin')
-        {
-            $data = json_decode(file_get_contents('php://input'), true);
-            $result = $this->comicsService->modifyComic($id, $data);
-            echo json_encode(['success' => $result]);
-        }
-        else
-        {
-            http_response_code(403);
-            echo json_encode(['error' => 'Forbidden']);
-        }
-    }
-
-    public function deleteComic($id)
-    {
-        if ($_SERVER['REQUEST_METHOD'] == 'DELETE' && isset($_SESSION['role']) && $_SESSION['role'] === 'admin')
-        {
-            $result = $this->comicsService->removeComic($id);
-            echo json_encode(['success' => $result]);
-        }
-        else
-        {
-            http_response_code(403);
-            echo json_encode(['error' => 'Forbidden']);
-        }
+        header("Content-Type: application/json");
+        http_response_code($statusCode);
+        echo $data;
     }
 }
-?>
