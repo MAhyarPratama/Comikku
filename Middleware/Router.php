@@ -1,42 +1,28 @@
 <?php
-
 class Router
 {
     private $routes = array();
 
-    public function register($method, $path, $action)
+    public function register($method, $route, $callback)
     {
-        $this->routes[strtoupper($method)][$path] = $action;
+        $this->routes[strtoupper($method)][$route] = $callback;
     }
 
-    public function dispatch($method, $uri) {
-        $basepath = dirname($_SERVER['SCRIPT_NAME']); // Remove the basepath from the URI
-    
-        if (substr($uri, 0, strlen($basepath)) == $basepath) {
-            $uri = substr($uri, strlen($basepath));
+    public function dispatch($method, $uri)
+    {
+        $uri = parse_url($uri, PHP_URL_PATH); // Extract the path from the URI
+        foreach ($this->routes[strtoupper($method)] as $route => $callback)
+        {
+            $routePattern = preg_replace('/{[^\/]+}/', '([^\/]+)', $route);
+            if (preg_match("#^$routePattern$#", $uri, $matches))
+            {
+                array_shift($matches);
+                call_user_func_array($callback, $matches);
+                return;
+            }
         }
-    
-        $method = strtoupper($method);
-    
-        if (isset($this->routes[$method][$uri])) {
-            // Store the result of the action in a variable $data
-            $data = call_user_func($this->routes[$method][$uri]);
-    
-            // Debugging code
-            error_log(print_r($data, true));
-    
-            // Set the response content type to JSON
-            header('Content-Type: application/json');
-            echo ($data);
-        } else {
-            http_response_code(404);
-            header('Content-Type: application/json');
-            echo json_encode([
-                'success' => false,
-                'message' => 'Resource not found.'
-            ]);
-        }
+        header("Content-Type: application/json");
+        http_response_code(404);
+        echo json_encode(array("success" => false, "message" => "Resource not found."));
     }
-    
 }
-?>
