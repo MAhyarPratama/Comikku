@@ -2,89 +2,68 @@
 class ComicsModel
 {
     private $conn;
-    private $table_name;
+    private $table_name = 'Comics';
 
     public function __construct($db)
     {
         $this->conn = $db;
-        $tables = include('config/table.php');
-        $this->table_name = $tables['comics'];
     }
 
-    public function readAllComics()
+    public function getAllComics()
     {
-        try
-        {
-            $query = "SELECT * FROM " . $this->table_name;
-            $stmt = $this->conn->prepare($query);
-            $stmt->execute();
-            return $stmt;
-        }
-        catch (PDOException $e)
-        {
-            echo "Error: " . $e->getMessage();
-        }
+        $query = "SELECT * FROM " . $this->table_name;
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    
+
     public function insertComic($data)
     {
-        try
-        {
-            $query = "INSERT INTO " . $this->table_name . " (Title, Author, Genre, Description, PublishDate, ImageURL) VALUES (:Title, :Author, :Genre, :Description, :PublishDate, :ImageURL)";
-            $stmt = $this->conn->prepare($query);
+        $query = "INSERT INTO " . $this->table_name . " (Title, Author, Genre, Description, PublishDate, ImageURL) VALUES (:title, :author, :genre, :description, :publishDate, :imageURL)";
+        $stmt = $this->conn->prepare($query);
 
-            $stmt->bindParam(":Title", $data['Title']);
-            $stmt->bindParam(":Author", $data['Author']);
-            $stmt->bindParam(":Genre", $data['Genre']);
-            $stmt->bindParam(":Description", $data['Description']);
-            $stmt->bindParam(":PublishDate", $data['PublishDate']);
-            $stmt->bindParam(":ImageURL", $data['ImageURL']);
+        $stmt->bindParam(':title', $data['Title']);
+        $stmt->bindParam(':author', $data['Author']);
+        $stmt->bindParam(':genre', $data['Genre']);
+        $stmt->bindParam(':description', $data['Description']);
+        $stmt->bindParam(':publishDate', $data['PublishDate']);
+        $stmt->bindParam(':imageURL', $data['ImageURL']);
 
-            return $stmt->execute();
-        
+        if ($stmt->execute()) {
+            return true;
         }
-        catch (PDOException $e)
-        {
-            echo "Error: " . $e->getMessage();
-        }
+        return false;
     }
 
     public function updateComic($id, $data)
     {
-        try
-        {
-            $query = "UPDATE " . $this->table_name . " SET Title = :Title, Author = :Author, Genre = :Genre, Description = :Description, PublishDate = :PublishDate, ImageURL = :ImageURL WHERE ComicID = :ComicID";
-            $stmt = $this->conn->prepare($query);
+        $query = "UPDATE " . $this->table_name . " SET Title = :title, Author = :author, Genre = :genre, Description = :description, PublishDate = :publishDate, ImageURL = :imageURL WHERE ComicID = :id";
+        $stmt = $this->conn->prepare($query);
 
-            $stmt->bindParam(":Title", $data['Title']);
-            $stmt->bindParam(":Author", $data['Author']);
-            $stmt->bindParam(":Genre", $data['Genre']);
-            $stmt->bindParam(":Description", $data['Description']);
-            $stmt->bindParam(":PublishDate", $data['PublishDate']);
-            $stmt->bindParam(":ComicID", $id);
+        $stmt->bindParam(':title', $data['Title']);
+        $stmt->bindParam(':author', $data['Author']);
+        $stmt->bindParam(':genre', $data['Genre']);
+        $stmt->bindParam(':description', $data['Description']);
+        $stmt->bindParam(':publishDate', $data['PublishDate']);
+        $stmt->bindParam(':imageURL', $data['ImageURL']);
+        $stmt->bindParam(':id', $id);
 
-            return $stmt->execute();
+        if ($stmt->execute()) {
+            return true;
         }
-        catch (PDOException $e)
-        {
-            echo "Error: " . $e->getMessage();
-        }
+        return false;
     }
 
     public function deleteComic($id)
     {
-        try
-        {
-            $query = "DELETE FROM " . $this->table_name . " WHERE ComicID = :ComicID";
-            $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(":ComicID", $id);
+        $query = "DELETE FROM " . $this->table_name . " WHERE ComicID = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
 
-            return $stmt->execute();
+        if ($stmt->execute()) {
+            return true;
         }
-        catch (PDOException $e)
-        {
-            echo "Error: " . $e->getMessage();
-        }
+        return false;
     }
 }
-?>
