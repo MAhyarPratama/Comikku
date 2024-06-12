@@ -1,40 +1,53 @@
 <?php
 session_start();
 
-include_once 'Config/database.php';
-include_once 'Controller/ComicsController.php';
-include_once 'Middleware/Router.php';
+include_once (__DIR__ . '/Config/database.php');
+include_once (__DIR__ . '/Controller/ComicsController.php');
+include_once (__DIR__ . '/Controller/AuthController.php');
+include_once (__DIR__ . '/Controller/UserController.php');
+include_once (__DIR__ . '/Middleware/Router.php');
+include_once (__DIR__ . '/Config.php');
 
 $database = new Database();
 $db = $database->getConnection();
 
 $router = new Router();
 
-// Register routes
-$router->register('GET', '/comics', function() use ($db) {
+// Register routes for comics
+$router->register('GET', '/Comikku/api/comics', function() use ($db) {
     $controller = new ComicsController($db);
-    return $controller->getComics();
+    $controller->getComics();
 });
 
-$router->register('POST', '/comics', function() use ($db) {
-    $controller = new ComicsController($db);
-    return $controller->createComic();
+// Register routes for users
+$router->register('GET', '/Comikku/api/users', function() use ($db) {
+    $controller = new UserController($db);
+    $controller->getAllUsers();
 });
 
-$router->register('PUT', '/comics/{id}', function($id) use ($db) {
-    $controller = new ComicsController($db);
-    return $controller->updateComic($id);
+$router->register('GET', '/Comikku/api/admin', function() use ($db) {
+    $controller = new UserController($db);
+    $controller->getUsersByRole('admin');
 });
 
-$router->register('DELETE', '/comics/{id}', function($id) use ($db) {
-    $controller = new ComicsController($db);
-    return $controller->deleteComic($id);
+// Register routes for authentication
+$router->register('POST', '/Comikku/api/login', function() use ($db) {
+    $controller = new AuthController($db);
+    $controller->login();
+});
+
+$router->register('POST', '/Comikku/api/logout', function() use ($db) {
+    $controller = new AuthController($db);
+    $controller->logout();
 });
 
 // Parse URI and method
 $uri = $_SERVER['REQUEST_URI'];
 $method = $_SERVER['REQUEST_METHOD'];
 
+// Debugging URI and method
+error_log("URI: " . $uri);
+error_log("Method: " . $method);
+
 // Dispatch the request
 $router->dispatch($method, $uri);
-?>

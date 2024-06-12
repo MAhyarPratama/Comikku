@@ -63,4 +63,3 @@ class Database
         $this->conn = null; // Close the PDO connection
     }
 }
-?>
