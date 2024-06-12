@@ -1,5 +1,5 @@
 <?php
-include_once 'models/ComicsModel.php';
+include_once (__DIR__ . '/../Models/ComicsModel.php');
 
 class ComicsService
 {
@@ -10,26 +10,23 @@ class ComicsService
         $this->comicsModel = $comicsModel;
     }
 
-    public function fetchAllComics()
+    public function getAllComics()
     {
-        $comics = $this->comicsModel->readAllComics();
-        $comicsArray = $comics->fetchAll(PDO::FETCH_ASSOC);
-        return $comicsArray;
+        return $this->comicsModel->getAllComics();
     }
 
-    public function addComic($data)
+    public function createComic($data)
     {
         return $this->comicsModel->insertComic($data);
     }
 
-    public function modifyComic($id, $data)
+    public function updateComic($id, $data)
     {
         return $this->comicsModel->updateComic($id, $data);
     }
 
-    public function removeComic($id)
+    public function deleteComic($id)
     {
         return $this->comicsModel->deleteComic($id);
     }
 }
-?>
