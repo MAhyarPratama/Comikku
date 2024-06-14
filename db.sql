@@ -1,8 +1,8 @@
 -- Create database
-CREATE DATABASE comikku;
+CREATE DATABASE comikku_db;
 
 -- Use the database
-USE comikku;
+USE comikku_db;
 
 -- Create Users table
 CREATE TABLE Users (
