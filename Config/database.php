@@ -1,5 +1,5 @@
 <?php
-class Database
+class database
 {
     private $host;
     private $dbname;
@@ -49,6 +49,7 @@ class Database
         try
         {
             $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->dbname, $this->username, $this->password);
+            $this->conn->exec("set names utf8");
         }
         catch (PDOException $exception)
         {
