@@ -1,5 +1,5 @@
 <?php
-include_once (__DIR__ . '/../Models/UserModel.php');
+include_once (__DIR__ . '/../Models/ComicsModel.php');
 
 class AuthService
 {
@@ -8,6 +8,10 @@ class AuthService
     public function __construct(UserModel $userModel)
     {
         $this->userModel = $userModel;
+    }
+
+    public function verifyCredentials($username, $password) {
+        return $this->userModel->findUser($username, $password);
     }
 
     public function authenticate($username, $password)

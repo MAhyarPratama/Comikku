@@ -1,28 +1,11 @@
 <?php
-include_once (__DIR__ . '/../Models/UserModel.php');
-
 class UserService
 {
     private $userModel;
 
-    public function __construct(UserModel $userModel)
+    public function __construct($userModel)
     {
         $this->userModel = $userModel;
-    }
-
-    public function authenticate($username, $password)
-    {
-        $user = $this->userModel->getUserByUsername($username);
-        if ($user && $user['PasswordHash'] === md5($password))
-        {
-            return true;
-        }
-        return false;
-    }
-
-    public function getUserByUsername($username)
-    {
-        return $this->userModel->getUserByUsername($username);
     }
 
     public function getAllUsers()
@@ -33,5 +16,17 @@ class UserService
     public function getUsersByRole($role)
     {
         return $this->userModel->getUsersByRole($role);
+    }
+
+    public function addUser($user)
+    {
+        // Hash the password before storing it
+        $user['password'] = password_hash($user['password'], PASSWORD_BCRYPT);
+        return $this->userModel->addUser($user);
+    }
+
+    public function deleteUser($id)
+    {
+        return $this->userModel->deleteUser($id);
     }
 }

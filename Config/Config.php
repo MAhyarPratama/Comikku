@@ -9,8 +9,8 @@ try {
 }
 
 // Include model and service
-include_once (__DIR__ . '/Models/ComicsModel.php');
-include_once (__DIR__ . '/Services/ComicsService.php');
+include_once (__DIR__ . '/../Models/ComicsModel.php');
+include_once (__DIR__ . '/../Services/ComicsService.php');
 
 // Initialize model and service instances
 $comicsModel = new ComicsModel($db);

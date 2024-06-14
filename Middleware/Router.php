@@ -1,28 +1,60 @@
 <?php
+
 class Router
 {
-    private $routes = array();
+    private $routes = [];
 
-    public function register($method, $route, $callback)
+    public function register($method, $route, $callback, $middlewares = [])
     {
-        $this->routes[strtoupper($method)][$route] = $callback;
+        $this->routes[] = [
+            'method' => strtoupper($method),
+            'route' => $route,
+            'callback' => $callback,
+            'middlewares' => $middlewares
+        ];
     }
 
-    public function dispatch($method, $uri)
+    public function handleRequest()
     {
-        $uri = parse_url($uri, PHP_URL_PATH); // Extract the path from the URI
-        foreach ($this->routes[strtoupper($method)] as $route => $callback)
-        {
-            $routePattern = preg_replace('/{[^\/]+}/', '([^\/]+)', $route);
-            if (preg_match("#^$routePattern$#", $uri, $matches))
-            {
-                array_shift($matches);
-                call_user_func_array($callback, $matches);
+        $requestMethod = $_SERVER['REQUEST_METHOD'];
+        $requestUri = $_SERVER['REQUEST_URI'];
+
+        foreach ($this->routes as $route) {
+            if ($this->matchRoute($route, $requestMethod, $requestUri)) {
+                $this->handleRoute($route);
                 return;
             }
         }
-        header("Content-Type: application/json");
+
         http_response_code(404);
-        echo json_encode(array("success" => false, "message" => "Resource not found."));
+        echo json_encode(['message' => 'Not Found']);
+    }
+
+    private function matchRoute($route, $requestMethod, $requestUri)
+    {
+        if ($route['method'] !== $requestMethod) {
+            return false;
+        }
+
+        $routePattern = preg_replace('/\{[a-zA-Z0-9]+\}/', '([a-zA-Z0-9]+)', $route['route']);
+        $routePattern = str_replace('/', '\/', $routePattern);
+
+        return preg_match('/^' . $routePattern . '$/', $requestUri);
+    }
+
+    private function handleRoute($route)
+    {
+        $middlewares = $route['middlewares'];
+        $callback = $route['callback'];
+
+        foreach ($middlewares as $middleware) {
+            $middleware::handle(function() use ($callback) {
+                $callback();
+            });
+        }
+
+        if (empty($middlewares)) {
+            $callback();
+        }
     }
 }

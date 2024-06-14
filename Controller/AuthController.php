@@ -24,6 +24,7 @@ class AuthController
 
         if ($user) {
             // Menyimpan informasi pengguna dalam sesi
+            session_start();
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
             $_SESSION['role'] = $user['role'];
@@ -52,6 +53,7 @@ class AuthController
     public function logout()
     {
         // Menghapus semua data sesi
+        session_start();
         session_unset();
         session_destroy();
 
@@ -65,4 +67,3 @@ class AuthController
         echo json_encode($response);
     }
 }
-?>
