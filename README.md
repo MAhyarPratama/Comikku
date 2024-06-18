@@ -1,7 +1,7 @@
 # Comikku
 # PROJECT AKHIR DARI MATA KULIAH Back-end Web Development	
 
-![Undertale-logo-removebg-preview](https://github.com/MAhyarPratama/Comikku2/assets/147960017/aaefe418-7ef6-4636-a132-209bfce73353)
+![demon-anime-girl-horn-glasses-katana-4k-wallpaper-uhdpaper com-837@3@a](https://github.com/MAhyarPratama/Comikku2/assets/147960017/a94d93ac-b355-4b43-9b22-35d6dcbd08ee)
 
 # Comikku2
 
@@ -29,14 +29,4 @@
 - ❌ Menghapus komik dari koleksi
 - 🔐 Autentikasi pengguna
 - 🛠️ Halaman admin untuk mengelola pengguna
-
-## Instalasi
-
-Untuk menjalankan proyek ini secara lokal, ikuti langkah-langkah berikut:
-
-1. **Kloning Repository**
-
-   ```bash
-   git clone https://github.com/MAhyarPratama/Comikku2.git
-   cd Comikku2
 
