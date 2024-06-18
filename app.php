@@ -6,6 +6,7 @@ include_once "Controller/AuthController.php";
 include_once "Controller/ComicsController.php";
 include_once "Controller/UserController.php";
 include_once "Middleware/Router.php";
+include_once "Middleware/AdminMiddleware.php";
 include_once "Config/Config.php";
 
 $database = new Database();
@@ -46,6 +47,11 @@ $router->register('POST', '/Comikku2/api/register', function() use ($db) {
     $controller->registerUser();
 });
 
+$router->register('GET', '/api/admin/users', function() use ($db) {
+    $controller = new UserController($db);
+    $controller->getAllUsers();
+}, ['AdminMiddleware']);
+
 $router->register('POST', '/Comikku2/api/admin/users', function() use ($db) {
     AdminMiddleware::handle(function() use ($db) {
         $controller = new UserController($db);
@@ -53,10 +59,19 @@ $router->register('POST', '/Comikku2/api/admin/users', function() use ($db) {
     });
 });
 
+// Endpoint untuk menghapus user berdasarkan ID
 $router->register('DELETE', '/Comikku2/api/admin/users/{id}', function($id) use ($db) {
     AdminMiddleware::handle(function() use ($db, $id) {
         $controller = new UserController($db);
         $controller->adminDeleteUser($id);
+    });
+});
+
+// Endpoint untuk menghapus comic berdasarkan ID
+$router->register('DELETE', '/Comikku2/api/admin/comics/{id}', function($id) use ($db) {
+    AdminMiddleware::handle(function() use ($db, $id) {
+        $controller = new ComicsController($db);
+        $controller->deleteComic($id);
     });
 });
 
@@ -70,4 +85,3 @@ error_log("Method: " . $method);
 
 // Dispatch the request
 $router->handleRequest();
-?>
