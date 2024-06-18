@@ -26,6 +26,6 @@
 ## Langkah - Langkah
 Disini Saya Menggunakan Postman, Jadi Untuk Semua Tolong Download Postman Terlebih dahulu.
 
-[Link Download Postman]([https://github.com](https://www.postman.com/downloads/))
+[Link Download Postman](https://www.postman.com/downloads/)
 
 - 📚 Melihat daftar Users
