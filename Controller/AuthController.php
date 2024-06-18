@@ -14,28 +14,43 @@ class AuthController
 
     public function login()
     {
-        // Mendapatkan data dari request
         $data = json_decode(file_get_contents("php://input"), true);
-        $username = $data['username'] ?? '';
-        $password = $data['password'] ?? '';
+        $username = $data['username'] ?? null;
+        $password = $data['password'] ?? null;
 
-        // Memverifikasi kredensial pengguna
+        var_dump($username);
+        var_dump($password);
+
+        // Memeriksa apakah username atau password tidak disediakan
+        if (is_null($username) || is_null($password)) {
+            $response = [
+                'success' => false,
+                'message' => 'Username and password are required'
+            ];
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            return;
+        }
+
         $user = $this->authService->verifyCredentials($username, $password);
-
+    
         if ($user) {
-            // Menyimpan informasi pengguna dalam sesi
-            session_start();
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['role'] = $user['role'];
-
+            if (session_status() == PHP_SESSION_NONE) {
+                session_start();
+            }
+            $_SESSION['user'] = [
+                'id' => $user['UserID'],
+                'username' => $user['Username'],
+                'role' => $user['Role']
+            ];
+    
             $response = [
                 'success' => true,
                 'message' => 'Login successful',
                 'user' => [
-                    'id' => $user['id'],
-                    'username' => $user['username'],
-                    'role' => $user['role']
+                    'id' => $user['UserID'],
+                    'username' => $user['Username'],
+                    'role' => $user['Role']
                 ]
             ];
         } else {
@@ -44,16 +59,17 @@ class AuthController
                 'message' => 'Invalid credentials'
             ];
         }
-
-        // Mengirimkan respon JSON
+    
         header('Content-Type: application/json');
         echo json_encode($response);
-    }
-
+    }    
+    
     public function logout()
     {
         // Menghapus semua data sesi
-        session_start();
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
         session_unset();
         session_destroy();
 
