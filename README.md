@@ -29,3 +29,10 @@ Disini Saya Menggunakan Postman, Jadi Untuk Semua Tolong Download Postman Terleb
 [Link Download Postman](https://www.postman.com/downloads/)
 
 - 📚 Melihat daftar Users
+
+Metode Yang digunakan adalah **GET** **http://localhost/Comikku2/api/users**
+
+Maka Tampilannya Akan Seperti ini :
+
+![Screenshot (700)](https://github.com/MAhyarPratama/Comikku2/assets/147960017/87704305-22a5-4ff4-a611-f73c945a9df2)
+
