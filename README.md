@@ -1,4 +1,3 @@
-# Comikku
 # PROJECT AKHIR DARI MATA KULIAH Back-end Web Development	
 
 ![demon-anime-girl-horn-glasses-katana-4k-wallpaper-uhdpaper com-837@3@a](https://github.com/MAhyarPratama/Comikku2/assets/147960017/a94d93ac-b355-4b43-9b22-35d6dcbd08ee)
