@@ -46,15 +46,25 @@ class Router
     {
         $middlewares = $route['middlewares'];
         $callback = $route['callback'];
+        $params = $this->getRouteParams($route['route'], $_SERVER['REQUEST_URI']);
 
         foreach ($middlewares as $middleware) {
-            $middleware::handle(function() use ($callback) {
-                $callback();
-            });
+            if (!$middleware::handle()) {
+                http_response_code(403);
+                echo json_encode(['message' => 'Forbidden']);
+                return;
+            }
         }
 
-        if (empty($middlewares)) {
-            $callback();
-        }
+        call_user_func_array($callback, $params);
+    }
+
+    private function getRouteParams($route, $requestUri)
+    {
+        $routePattern = preg_replace('/\{[a-zA-Z0-9]+\}/', '([a-zA-Z0-9]+)', $route);
+        $routePattern = str_replace('/', '\/', $routePattern);
+        preg_match('/^' . $routePattern . '$/', $requestUri, $matches);
+        array_shift($matches);
+        return $matches;
     }
 }

@@ -9,11 +9,11 @@ class UserModel
         $this->conn = $db;
     }
 
-    public function findUser($username, $password) {
-        $stmt = $this->conn->prepare("SELECT * FROM users WHERE username = ? AND password = ?");
-        $stmt->execute([$username, $password]);
+    public function findUser($username) {
+        $stmt = $this->conn->prepare("SELECT * FROM users WHERE username = ?");
+        $stmt->execute([$username]);
         return $stmt->fetch();
-    }
+    }    
 
     public function getUserByUsername($username)
     {
@@ -21,8 +21,9 @@ class UserModel
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':username', $username);
         $stmt->execute();
-
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        var_dump($result); // Tambahkan ini untuk melihat output
+        return $result;
     }
 
     public function getAllUsers()
