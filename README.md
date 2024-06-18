@@ -1,7 +1,7 @@
 # Comikku
 # PROJECT AKHIR DARI MATA KULIAH Back-end Web Development	
 
-![Uploading demon-anime-girl-horn-glasses-katana-4k-wallpaper-uhdpaper.com-837@3@a.jpg…]()
+![Undertale-logo-removebg-preview](https://github.com/MAhyarPratama/Comikku2/assets/147960017/aaefe418-7ef6-4636-a132-209bfce73353)
 
 # Comikku2
 
