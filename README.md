@@ -37,6 +37,7 @@ Maka Tampilannya Akan Seperti ini :
 ![Screenshot (700)](https://github.com/MAhyarPratama/Comikku2/assets/147960017/87704305-22a5-4ff4-a611-f73c945a9df2)
 
 - 👥 Melihat Daftar Admin
+
 Masih Sama Seperti, Melihat Daftar User. **GET** "http://localhost/Comikku2/api/admin". hanya berbeda pada akhirannya saja
 
 Maka Tampilannya Akan Seperti ini :
