@@ -5,11 +5,14 @@ include_once (__DIR__ . '/../Services/UserService.php');
 class UserController
 {
     private $userService;
+    private $userModel;
+    private $db;
 
     public function __construct($db)
     {
-        $userModel = new UserModel($db);
-        $this->userService = new UserService($userModel);
+        $this->db = $db;
+        $this->userModel = new UserModel($this->db);
+        $this->userService = new UserService($this->userModel, $this->db);
     }
 
     public function getAllUsers()
@@ -33,16 +36,26 @@ class UserController
 
     public function registerUser()
     {
+        // Ensure $this->db is initialized and not null
+        $this->userService = new UserService($this->userModel, $this->db);
+        
         $data = json_decode(file_get_contents("php://input"), true);
-
-        // Validate user input
+    
+        // Validasi input pengguna
         if (empty($data['username']) || empty($data['password'])) {
             http_response_code(400);
             echo json_encode(["message" => "Invalid input"]);
             return;
         }
+    
+        // Simpan password tanpa hashing
+        $user_data = [
+            'username' => $data['username'],
+            'password' => $data['password'],
+            'role' => 'user'  // Asumsi default role adalah 'user'
+        ];
 
-        if ($this->userService->addUser(['username' => $data['username'], 'password' => $data['password'], 'role' => 'user'])) {
+        if ($this->userService->addUser($user_data)) {
             http_response_code(201);
             echo json_encode(["message" => "User registered successfully"]);
         } else {
@@ -50,19 +63,27 @@ class UserController
             echo json_encode(["message" => "Failed to register user"]);
         }
     }
-
+    
     public function adminAddUser()
     {
-        $data = json_decode(file_get_contents("php://input"), true);
-
-        // Validate user input
-        if (empty($data['username']) || empty($data['password']) || empty($data['role'])) {
+        $data = json_decode(file_get_contents("php://input"), true); // Add comma
+    
+        // Validasi input pengguna
+        if (empty($data['username']) || empty($data['password']) || empty($data['role']) || empty($data['email'])) {
             http_response_code(400);
             echo json_encode(["message" => "Invalid input"]);
             return;
         }
-
-        if ($this->userService->addUser($data)) {
+    
+        // Simpan password tanpa hashing
+        $user_data = [
+            'username' => $data['username'],
+            'password' => $data['password'],
+            'email' => $data['email'],
+            'role' => $data['role']
+        ];
+    
+        if ($this->userService->addUser($user_data)) {
             http_response_code(201);
             echo json_encode(["message" => "User created successfully"]);
         } else {
@@ -70,7 +91,7 @@ class UserController
             echo json_encode(["message" => "Failed to create user"]);
         }
     }
-
+    
     public function adminDeleteUser($id)
     {
         if ($this->userService->deleteUser($id)) {
