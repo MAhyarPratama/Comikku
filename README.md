@@ -11,21 +11,21 @@
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Status](https://img.shields.io/badge/status-active-green.svg)
 
-## Daftar Isi
-
-- [Fitur](#fitur)
-- [Instalasi](#instalasi)
-- [Penggunaan](#penggunaan)
-- [Struktur Proyek](#struktur-proyek)
-- [Kontribusi](#kontribusi)
-- [Lisensi](#lisensi)
 
 ## Fitur
 
-- 📚 Melihat daftar komik
-- ➕ Menambahkan komik baru
-- ✏️ Mengedit informasi komik
-- ❌ Menghapus komik dari koleksi
-- 🔐 Autentikasi pengguna
-- 🛠️ Halaman admin untuk mengelola pengguna
 
+- 📚 Melihat daftar Users
+- 👥 Melihat daftar Admin
+- 📖 Melihat daftar Comic
+- ❌ Menghapus Pengguna
+- ➕ Mendaftar Pengguna Baru
+- 🔑 Login
+- 🚪 Logout
+
+## Langkah - Langkah
+Disini Saya Menggunakan Postman, Jadi Untuk Semua Tolong Download Postman Terlebih dahulu.
+
+[Link Download Postman]([https://github.com](https://www.postman.com/downloads/))
+
+- 📚 Melihat daftar Users
