@@ -40,10 +40,17 @@ Maka Tampilannya Akan Seperti ini :
 
 - 👥 Melihat Daftar Admin
 
-Masih Sama Seperti, Melihat Daftar User. **GET** "http://localhost/Comikku2/api/admin". hanya berbeda pada akhirannya saja
+Masih Sama Seperti, Melihat Daftar User. **GET**, EndPoint : "http://localhost/Comikku2/api/admin". hanya berbeda pada akhirannya saja
 
 Maka Tampilannya Akan Seperti ini :
 
 ![Screenshot (701)](https://github.com/MAhyarPratama/Comikku2/assets/147960017/5630ee85-8f14-4055-9891-ea5f020bb8e7)
 
 
+- 📖 Melihat Daftar Comic
+
+Langkahnya Masih Sama Seperti Sebelumnya Menggunakan Metode **GET**, EndPointnya : "http://localhost/Comikku2/api/comics".
+
+Maka Tampilannya Akan Seperti ini :
+
+![Screenshot 2024-06-19 235554](https://github.com/MAhyarPratama/Comikku2/assets/147960017/ff960d69-1ca1-48bb-a403-3842892ca3c7)
