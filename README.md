@@ -62,8 +62,17 @@ Maka Tampilannya Akan Seperti ini :
 
 Selanjutnya Untuk Menghapus Pengguna adalah menggunakan UserID dan Metodenya Adalah **DELETE** EndPointnya : "http://localhost/Comikku2/api/admin/users/{id}".
 
-Maka Tampilannya Akan Seperti ini :
+⚠️ **Sebelum Anda Menggunakan EndPoint DELETE Users, Anda Harus Menggunakan EndPoint Login Terlebih Dahulu**
 
+Jika Tidak Login Terlebih Dahulu, Maka Tampilannya Akan Seperti ini :
+
+![Screenshot 2024-06-20 235123](https://github.com/MAhyarPratama/Comikku2/assets/147960017/c7d615e2-b290-48d9-a59b-814bc3ddb269)
+
+Dan Ini Adalah Menggunakan EndPoint Login Terlebih Dahulu, Baru Bisa Menghapus Users Menggunakan UsersID :
+
+![Screenshot 2024-06-20 234208](https://github.com/MAhyarPratama/Comikku2/assets/147960017/2372467b-74eb-497d-ab4f-9cf09e99c649)
+
+📝 **Sebenarnya Users Itu Sudah Dihapus, Kalau Ingin Memastikan Berhasil Atau Tidaknya, Anda Bisa Menggunakan Endpoint Untuk Melihat Daftar Users Seperti Yang Diawal**
 
 
 - ➕ Mendaftar Pengguna Baru
