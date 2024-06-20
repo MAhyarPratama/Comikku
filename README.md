@@ -132,6 +132,8 @@ Terima Kasih Banyak Buat Bapak Dosen Pengajar Yaitu Bapak I NYOMAN RUDY HENDRAWA
 📚 Selamat Mengelola Komik: Selamat Mengelola Koleksi Komik Anda Dan Semoga Pengalaman Anda Dengan Comikku2 Menyenangkan!
 
 ✨ Terima kasih,
+
 <img src="https://github.com/MAhyarPratama/Comikku2/assets/147960017/0d0adab4-4506-492a-b5a7-84dd2775c3e7" alt="Fox" width="150"> 
+
 (RYUU)
 
