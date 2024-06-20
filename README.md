@@ -30,6 +30,7 @@ Disini Saya Menggunakan Postman, Jadi Untuk Semua Tolong Download Postman Terleb
 
 [Link Download Postman](https://www.postman.com/downloads/)
 
+
 - 📚 Melihat Daftar Users
 
 Metode Yang digunakan adalah **GET** **http://localhost/Comikku2/api/users**
@@ -37,6 +38,7 @@ Metode Yang digunakan adalah **GET** **http://localhost/Comikku2/api/users**
 Maka Tampilannya Akan Seperti ini :
 
 ![Screenshot (700)](https://github.com/MAhyarPratama/Comikku2/assets/147960017/87704305-22a5-4ff4-a611-f73c945a9df2)
+
 
 - 👥 Melihat Daftar Admin
 
@@ -54,3 +56,24 @@ Langkahnya Masih Sama Seperti Sebelumnya Menggunakan Metode **GET**, EndPointnya
 Maka Tampilannya Akan Seperti ini :
 
 ![Screenshot 2024-06-19 235554](https://github.com/MAhyarPratama/Comikku2/assets/147960017/ff960d69-1ca1-48bb-a403-3842892ca3c7)
+
+
+- ❌ Menghapus Pengguna
+
+Selanjutnya Untuk Menghapus Pengguna adalah menggunakan UserID dan Metodenya Adalah **DELETE** EndPointnya : "http://localhost/Comikku2/api/admin/users/{id}".
+
+Maka Tampilannya Akan Seperti ini :
+
+
+
+- ➕ Mendaftar Pengguna Baru
+
+Selanjutnya Untuk Menambahkan Pengguna Adalah Menggunakan Metode **POST**, EndPointnya : "http://localhost/Comikku2/api/register".
+
+Dengan Ada Penambahan Dibagian Body-RAW Seperti Gambar Dibawah Ini : 
+
+![Screenshot 2024-06-20 233220](https://github.com/MAhyarPratama/Comikku2/assets/147960017/ad0209fc-7fad-4a38-a8ee-2bea7210ae09)
+
+Sebagai Contoh Saya Memasukkan username dan passwordnya, Beserta Hasilnya :
+
+![Screenshot 2024-06-20 233457](https://github.com/MAhyarPratama/Comikku2/assets/147960017/2c39f8a9-cda1-4425-8493-4a35f1e5cd0c)
